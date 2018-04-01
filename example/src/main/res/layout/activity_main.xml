@@ -11,8 +11,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.atguigu.fastec.example.MainActivity">
 
-    <TextView
+    <com.joanzapata.iconify.widget.IconTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:text="I {fa-coffee} to {fa-code} on {fa-android}"
+        android:shadowColor="#22000000"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="1"
+        android:textSize="40sp"
+        android:textColor="#FF2442"/>
+
+
 </RelativeLayout>
