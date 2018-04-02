@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.atguigu.latte.app.Latte;
 import com.atguigu.latteec.ec.icon.FontEcModule;
+import com.joanzapata.iconify.Iconify;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 /**
@@ -23,7 +24,8 @@ public class ExampleApp extends Application {
                 .withIcon(new FontEcModule())
                 .withApiHost("你的本地服务器地址")
                 .configure();
-        Toast.makeText(Latte.getApplicationContext(),"561116",Toast.LENGTH_SHORT).show();
+        Iconify.with(new FontAwesomeModule());
+        Toast.makeText(Latte.getApplicationContext(),"123",Toast.LENGTH_SHORT).show();
     }
 
 }
