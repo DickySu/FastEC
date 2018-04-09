@@ -22,7 +22,7 @@ public class ExampleApp extends Application {
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
-                .withApiHost("你的本地服务器地址")
+                .withApiHost("https://news.baidu.com")
                 .configure();
         Iconify.with(new FontAwesomeModule());
         Toast.makeText(Latte.getApplicationContext(),"123",Toast.LENGTH_SHORT).show();
