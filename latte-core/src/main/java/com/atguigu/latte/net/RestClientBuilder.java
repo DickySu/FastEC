@@ -6,6 +6,7 @@ import com.atguigu.latte.net.callback.IError;
 import com.atguigu.latte.net.callback.IFailure;
 import com.atguigu.latte.net.callback.IRequest;
 import com.atguigu.latte.net.callback.ISuccess;
+import com.atguigu.latte.ui.loader.LoaderStyle;
 
 import java.io.File;
 import java.util.WeakHashMap;
@@ -27,6 +28,7 @@ public final class RestClientBuilder {
     private IError mIError = null;
     private RequestBody mBody = null;
     private Context mContext = null;
+    private LoaderStyle mLoaderStyle = null;
     private File mFile = null;
     private String mDownloadDir = null;
     private String mExtension = null;
@@ -99,10 +101,15 @@ public final class RestClientBuilder {
         return this;
     }
 
-
+    public final RestClientBuilder loader(Context context, LoaderStyle style) {
+        this.mContext = context;
+        this.mLoaderStyle = style;
+        return this;
+    }
 
     public final RestClientBuilder loader(Context context) {
         this.mContext = context;
+        this.mLoaderStyle = LoaderStyle.BallClipRotatePulseIndicator;
         return this;
     }
 
@@ -110,8 +117,8 @@ public final class RestClientBuilder {
         return new RestClient(mUrl, PARAMS,
                 mDownloadDir, mExtension, mName,
                 mIRequest, mISuccess, mIFailure,
-                mIError, mBody, mFile, mContext
-                );
+                mIError, mBody, mFile, mContext,
+                mLoaderStyle);
     }
 
 }

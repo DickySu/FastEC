@@ -7,6 +7,8 @@ import com.atguigu.latte.net.callback.IFailure;
 import com.atguigu.latte.net.callback.IRequest;
 import com.atguigu.latte.net.callback.ISuccess;
 import com.atguigu.latte.net.callback.RequestCallbacks;
+import com.atguigu.latte.ui.loader.LatteLoader;
+import com.atguigu.latte.ui.loader.LoaderStyle;
 
 import java.io.File;
 import java.util.Map;
@@ -34,6 +36,7 @@ public final class RestClient {
     private final IFailure FAILURE;
     private final IError ERROR;
     private final RequestBody BODY;
+    private final LoaderStyle LOADER_STYLE;
     private final File FILE;
     private final Context CONTEXT;
 
@@ -41,7 +44,8 @@ public final class RestClient {
                String downloadDir, String extension,
                String name, IRequest request,
                ISuccess success, IFailure failure, IError error,
-               RequestBody body, File file, Context context)
+               RequestBody body, File file, Context context,
+                       LoaderStyle loaderStyle)
     {
         this.URL = url;
         PARAMS.putAll(params);
@@ -55,6 +59,7 @@ public final class RestClient {
         this.BODY = body;
         this.FILE = file;
         this.CONTEXT = context;
+        this.LOADER_STYLE = loaderStyle;
     }
 
     public static RestClientBuilder builder() {
@@ -68,6 +73,10 @@ public final class RestClient {
 
         if (REQUEST != null) {
             REQUEST.onRequestStart();
+        }
+
+        if (LOADER_STYLE != null) {
+            LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
         }
 
         switch (method) {
@@ -110,7 +119,8 @@ public final class RestClient {
                 REQUEST,
                 SUCCESS,
                 FAILURE,
-                ERROR
+                ERROR,
+                LOADER_STYLE
         );
     }
 
