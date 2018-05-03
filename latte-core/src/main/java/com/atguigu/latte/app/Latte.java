@@ -12,7 +12,7 @@ public final class Latte {
     public static Configurator init(Context context) {
         Configurator.getInstance()
                 .getLatteConfigs()
-                .put(ConfigKeys.APPLICATION_CONTEXT, context.getApplicationContext());
+                .put(ConfigKeys.APPLICATION_CONTEXT.name(), context.getApplicationContext());
         return Configurator.getInstance();
     }
 
@@ -20,8 +20,8 @@ public final class Latte {
         return Configurator.getInstance();
     }
 
-    public static <T> T getConfiguration(Object key) {
-        return getConfigurator().getConfiguration(key);
+    public static <T> T getConfiguration(Enum<ConfigKeys> key) { //根据key得到属性值
+        return getConfigurator().getConfiguration(key); //
     }
 
     public static Context getApplicationContext() {

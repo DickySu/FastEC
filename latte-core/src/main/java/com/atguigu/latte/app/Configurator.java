@@ -1,5 +1,7 @@
 package com.atguigu.latte.app;
 
+import android.util.Log;
+
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
 
@@ -8,14 +10,15 @@ import java.util.HashMap;
 
 /**
  * Created by su on 2018/4/1.
+ * 配置信息的存储读取
  */
 
 public class Configurator {
     private static final HashMap<Object, Object> LATTE_CONFIGS = new HashMap<>();
-    private static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();
+    private static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();//字体图标库
 
     private Configurator() {
-        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY, false);
+        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY.name(), false);
     }
 
     static Configurator getInstance() {
@@ -27,7 +30,8 @@ public class Configurator {
     }
 
     public final void configure() {
-        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY, true);
+        initIcons();//记得初始化字体图标库
+        LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY.name(), true);
     }
 
     final HashMap<Object, Object> getLatteConfigs() {
@@ -35,25 +39,26 @@ public class Configurator {
     }
 
     public final Configurator withApiHost(String host) {
-        LATTE_CONFIGS.put(ConfigKeys.API_HOST, host);
+        LATTE_CONFIGS.put(ConfigKeys.API_HOST.name(), host);
         return this;
     }
 
     private void checkConfiguration() {
-        final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigKeys.CONFIG_READY);
+        final boolean isReady = (boolean) LATTE_CONFIGS.get(ConfigKeys.CONFIG_READY.name());
+        Log.i("sujh_Config",""+isReady);
         if (!isReady) {
             throw new RuntimeException("Configuration is not ready,call configure");
         }
     }
 
     @SuppressWarnings("unchecked")
-    final <T> T getConfiguration(Object key) {
+    final <T> T getConfiguration(Enum<ConfigKeys> key) {//传入key 得到值
         checkConfiguration();
-        final Object value = LATTE_CONFIGS.get(key);
+        final Object value = LATTE_CONFIGS.get(key.name());
         if (value == null) {
-            throw new NullPointerException(key.toString() + " IS NULL");
+            throw new NullPointerException(key.name().toString() + " IS NULL");
         }
-        return (T) LATTE_CONFIGS.get(key);
+        return (T) LATTE_CONFIGS.get(key.name());
     }
 
     private void initIcons() {

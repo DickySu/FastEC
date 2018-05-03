@@ -1,15 +1,14 @@
 package com.atguigu.fastec.example;
 
-import com.atguigu.latte.activities.ProxyActivity;
-import com.atguigu.latte.delegates.LatteDelegate;
+import android.app.Activity;
+import android.os.Bundle;
 
-public class MainActivity extends ProxyActivity {
+//public class MainActivity extends ProxyActivity {
+public class MainActivity extends Activity {
 
     @Override
-    public LatteDelegate setRootDelegate() {
-        return new ExampleDelegate();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
     }
-
-
-
 }
