@@ -56,6 +56,7 @@ public class ExampleDelegate extends LatteDelegate {
                         Log.i("sujh_net","onFailure");
                     }
                 })
+                .loader(getContext())  //没有传样式就用默认的加载对话框
                 .build()
                 .get();
 
