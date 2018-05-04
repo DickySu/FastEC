@@ -22,7 +22,7 @@ public abstract class ProxyActivity extends SupportActivity{
 
     private void initContainer(@Nullable Bundle savedInstanceState) {
         final ContentFrameLayout container = new ContentFrameLayout(this);//准备一个帧布局来放
-        container.setId(R.id.delegate_container);//帧布局给个ID
+        container.setId(R.id.delegate_container);//帧布局给个ID 这里不能直接写数字
         setContentView(container);//给activity设置布局
         if (savedInstanceState == null) { //首次加载
             loadRootFragment(R.id.delegate_container, setRootDelegate());//用fragment替换掉帧布局

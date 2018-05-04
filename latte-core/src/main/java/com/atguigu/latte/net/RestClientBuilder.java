@@ -19,7 +19,7 @@ import okhttp3.RequestBody;
  */
 
 public final class RestClientBuilder {
-
+    //构造者模式这边就不能用final修饰  变量跟RestClient一致
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
     private String mUrl = null;
     private IRequest mIRequest = null;
@@ -113,6 +113,12 @@ public final class RestClientBuilder {
         return this;
     }
 
+//    private Map<String,Object> checkParams(){
+//        if(mParams == null ){
+//            return new WeakHashMap<>();
+//        }
+//        return mParams;
+//    }
     public final RestClient build() {
         return new RestClient(mUrl, PARAMS,
                 mDownloadDir, mExtension, mName,

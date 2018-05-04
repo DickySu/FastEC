@@ -27,15 +27,15 @@ import retrofit2.Callback;
 public final class RestClient {
 
     private static final WeakHashMap<String, Object> PARAMS = RestCreator.getParams();
-    private final String URL;
-    private final IRequest REQUEST;
+    private final String URL; //请求的拼接起来的网址
+    private final IRequest REQUEST;//请求开始跟结束的回调接口
+    private final ISuccess SUCCESS; //请求成功的回调接口
+    private final IFailure FAILURE;//请求失败的回调接口
+    private final IError ERROR;//请求错误的回调接口
     private final String DOWNLOAD_DIR;
     private final String EXTENSION;
     private final String NAME;
-    private final ISuccess SUCCESS;
-    private final IFailure FAILURE;
-    private final IError ERROR;
-    private final RequestBody BODY;
+    private final RequestBody BODY;//请求体
     private final LoaderStyle LOADER_STYLE;
     private final File FILE;
     private final Context CONTEXT;
@@ -68,10 +68,11 @@ public final class RestClient {
 
 
     private void request(HttpMethod method) {
+        //得到retrofit对象
         final RestService service = RestCreator.getRestService();
-        Call<String> call = null;
+        Call<String> call = null; //回调对象
 
-        if (REQUEST != null) {
+        if (REQUEST != null) { //如果有加载框就可以显示了
             REQUEST.onRequestStart();
         }
 

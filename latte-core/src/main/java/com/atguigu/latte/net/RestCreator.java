@@ -54,11 +54,12 @@ public final class RestCreator {
      * 构建全局Retrofit客户端
      */
     private static final class RetrofitHolder {
+        //通过配置类得到基本网址
         private static final String BASE_URL = Latte.getConfiguration(ConfigKeys.API_HOST);
-        private static final Retrofit RETROFIT_CLIENT = new Retrofit.Builder()
+        private static final Retrofit RETROFIT_CLIENT = new Retrofit.Builder()//构建Retrofit
                 .baseUrl(BASE_URL)
-                .client(OKHttpHolder.OK_HTTP_CLIENT)
-                .addConverterFactory(ScalarsConverterFactory.create())
+//                .client(OKHttpHolder.OK_HTTP_CLIENT)
+                .addConverterFactory(ScalarsConverterFactory.create())  //转换器可以返回stream类型
                 .build();
     }
 
@@ -70,7 +71,7 @@ public final class RestCreator {
                 RetrofitHolder.RETROFIT_CLIENT.create(RestService.class);
     }
 
-    public static RestService getRestService() {
+    public static RestService getRestService() {  //暴露方法给别人用
         return RestServiceHolder.REST_SERVICE;
     }
 }

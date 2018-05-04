@@ -1,11 +1,5 @@
 package com.atguigu.latte.net.callback;
 
-import android.os.Handler;
-
-import com.atguigu.latte.app.ConfigKeys;
-import com.atguigu.latte.app.Latte;
-import com.atguigu.latte.net.RestCreator;
-import com.atguigu.latte.ui.loader.LatteLoader;
 import com.atguigu.latte.ui.loader.LoaderStyle;
 
 import retrofit2.Call;
@@ -19,7 +13,7 @@ public final class RequestCallbacks implements Callback<String> {
     private final IFailure FAILURE;
     private final IError ERROR;
     private final LoaderStyle LOADER_STYLE;
-    private static final Handler HANDLER = Latte.getHandler();
+//    private static final Handler HANDLER = Latte.getHandler();
 
     public RequestCallbacks(IRequest request, ISuccess success, IFailure failure, IError error, LoaderStyle style) {
         this.REQUEST = request;
@@ -42,7 +36,7 @@ public final class RequestCallbacks implements Callback<String> {
             }
         }
 
-        onRequestFinish();
+//        onRequestFinish();
     }
 
     @Override
@@ -54,19 +48,19 @@ public final class RequestCallbacks implements Callback<String> {
             REQUEST.onRequestEnd();
         }
 
-        onRequestFinish();
+//        onRequestFinish();
     }
 
-    private void onRequestFinish() {
-        final long delayed = Latte.getConfiguration(ConfigKeys.LOADER_DELAYED);
-        if (LOADER_STYLE != null) {
-            HANDLER.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    RestCreator.getParams().clear();
-                    LatteLoader.stopLoading();
-                }
-            }, delayed);
-        }
-    }
+//    private void onRequestFinish() {
+//        final long delayed = Latte.getConfiguration(ConfigKeys.LOADER_DELAYED);
+//        if (LOADER_STYLE != null) {
+//            HANDLER.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    RestCreator.getParams().clear();
+//                    LatteLoader.stopLoading();
+//                }
+//            }, delayed);
+//        }
+//    }
 }
