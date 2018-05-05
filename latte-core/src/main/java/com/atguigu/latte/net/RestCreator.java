@@ -34,12 +34,13 @@ public final class RestCreator {
     private static final class OKHttpHolder {
         private static final int TIME_OUT = 60;
         private static final OkHttpClient.Builder BUILDER = new OkHttpClient.Builder();
+        //通过key去得到配置了的拦截器集合
         private static final ArrayList<Interceptor> INTERCEPTORS = Latte.getConfiguration(ConfigKeys.INTERCEPTOR);
 
         private static OkHttpClient.Builder addInterceptor() {
             if (INTERCEPTORS != null && !INTERCEPTORS.isEmpty()) {
                 for (Interceptor interceptor : INTERCEPTORS) {
-                    BUILDER.addInterceptor(interceptor);
+                    BUILDER.addInterceptor(interceptor); //遍历添加拦截器
                 }
             }
             return BUILDER;

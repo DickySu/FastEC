@@ -8,14 +8,18 @@ import com.joanzapata.iconify.Iconify;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import okhttp3.Interceptor;
+
 /**
  * Created by su on 2018/4/1.
  * 配置信息的存储读取
  */
 
 public class Configurator {
-    private static final HashMap<Object, Object> LATTE_CONFIGS = new HashMap<>();
+    //这边map之前的额key是String 现在也用Object 以免有人喜欢存int enum 对象等 省得转换为string
+    private static final HashMap<Object, Object> LATTE_CONFIGS = new HashMap<>(); //全局属性值配置缓存
     private static final ArrayList<IconFontDescriptor> ICONS = new ArrayList<>();//字体图标库
+    private static final ArrayList<Interceptor> INTERCEPTORS = new ArrayList<>();//拦截器缓存
 
     private Configurator() {
         LATTE_CONFIGS.put(ConfigKeys.CONFIG_READY.name(), false);
@@ -49,6 +53,18 @@ public class Configurator {
         if (!isReady) {
             throw new RuntimeException("Configuration is not ready,call configure");
         }
+    }
+
+    public final Configurator withInterceptor(Interceptor interceptor) {//拦截器添加
+        INTERCEPTORS.add(interceptor); //集合放入一个拦截器
+        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS); //注意这里不是放入一个 是整个集合放入配置中
+        return this;
+    }
+
+    public final Configurator withInterceptors(ArrayList<Interceptor> interceptors) {
+        INTERCEPTORS.addAll(interceptors);//存入一堆拦截器
+        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS);//注意这里不是放入一个 是整个集合放入配置中
+        return this;
     }
 
     @SuppressWarnings("unchecked")

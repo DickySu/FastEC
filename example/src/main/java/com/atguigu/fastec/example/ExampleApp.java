@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.atguigu.latte.app.Latte;
+import com.atguigu.latte.net.interceptors.DebugInterceptor;
 import com.atguigu.latteec.ec.icon.FontEcModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
@@ -22,6 +23,7 @@ public class ExampleApp extends Application {
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
                 .withApiHost("https://news.baidu.com")
+                .withInterceptor(new DebugInterceptor("index",R.raw.test)) //拦截到这个单词就返回后面这个数据
                 .configure();//一定要这个方法将CONFIG_READY设置为true
         //Iconify.with(new FontAwesomeModule());
         Toast.makeText(Latte.getApplicationContext(),"123",Toast.LENGTH_SHORT).show();
