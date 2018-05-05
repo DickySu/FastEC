@@ -57,13 +57,13 @@ public class Configurator {
 
     public final Configurator withInterceptor(Interceptor interceptor) {//拦截器添加
         INTERCEPTORS.add(interceptor); //集合放入一个拦截器
-        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS); //注意这里不是放入一个 是整个集合放入配置中
+        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR.name(), INTERCEPTORS); //注意这里不是放入一个 是整个集合放入配置中
         return this;
     }
 
     public final Configurator withInterceptors(ArrayList<Interceptor> interceptors) {
         INTERCEPTORS.addAll(interceptors);//存入一堆拦截器
-        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR, INTERCEPTORS);//注意这里不是放入一个 是整个集合放入配置中
+        LATTE_CONFIGS.put(ConfigKeys.INTERCEPTOR.name(), INTERCEPTORS);//注意这里不是放入一个 是整个集合放入配置中
         return this;
     }
 

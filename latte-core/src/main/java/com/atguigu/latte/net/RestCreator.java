@@ -59,7 +59,7 @@ public final class RestCreator {
         private static final String BASE_URL = Latte.getConfiguration(ConfigKeys.API_HOST);
         private static final Retrofit RETROFIT_CLIENT = new Retrofit.Builder()//构建Retrofit
                 .baseUrl(BASE_URL)
-//                .client(OKHttpHolder.OK_HTTP_CLIENT)
+                .client(OKHttpHolder.OK_HTTP_CLIENT)
                 .addConverterFactory(ScalarsConverterFactory.create())  //转换器可以返回stream类型
                 .build();
     }
