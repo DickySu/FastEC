@@ -14,6 +14,7 @@ import com.atguigu.latte.net.RestCreator;
 import com.atguigu.latte.net.callback.IError;
 import com.atguigu.latte.net.callback.IFailure;
 import com.atguigu.latte.net.callback.ISuccess;
+import com.atguigu.latte.net.rx.RxRestClient;
 
 import java.util.WeakHashMap;
 
@@ -38,7 +39,8 @@ public class ExampleDelegate extends LatteDelegate {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         Log.i("sujh_net","testRestClient");
-        testRxRestClient();
+        testRxRestClient2();
+//        testRxRestClient();
 //        testRestClient();
     }
 
@@ -102,5 +104,34 @@ public class ExampleDelegate extends LatteDelegate {
                     }
                 });
 
+    }
+
+    public void testRxRestClient2(){
+        RxRestClient.builder().url("http://192.168.212.2:80/chap13/index.jsp").build()
+                .get()
+                .subscribeOn(Schedulers.io()) //执行联网在IO线程
+                .observeOn(AndroidSchedulers.mainThread())  //处理数据在主线程
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@io.reactivex.annotations.NonNull String s) {
+                        Toast.makeText(getContext(),"s:"+s,Toast.LENGTH_SHORT).show();
+                        Log.i("sujh_Rx",s);
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
