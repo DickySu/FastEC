@@ -7,6 +7,7 @@ import com.atguigu.latte.net.callback.IFailure;
 import com.atguigu.latte.net.callback.IRequest;
 import com.atguigu.latte.net.callback.ISuccess;
 import com.atguigu.latte.net.callback.RequestCallbacks;
+import com.atguigu.latte.net.download.DownloadHandler;
 import com.atguigu.latte.ui.loader.LatteLoader;
 import com.atguigu.latte.ui.loader.LoaderStyle;
 
@@ -88,7 +89,7 @@ public final class RestClient {
                 call = service.post(URL, PARAMS);
                 break;
             case POST_RAW:
-                call = service.postRaw(URL, BODY);
+                call = service.postRaw(URL, BODY); //post原始数据
                 break;
             case PUT:
                 call = service.put(URL, PARAMS);
@@ -129,29 +130,41 @@ public final class RestClient {
         request(HttpMethod.GET);
     }
 
-    public final void post() {
-        if (BODY == null) {
+    public final void post() { //暴露给外部使用的
+        if (BODY == null) {   //发送普通post
             request(HttpMethod.POST);
         } else {
-            if (!PARAMS.isEmpty()) {
+            if (!PARAMS.isEmpty()) { //发送带body的post，参数必须为空
                 throw new RuntimeException("params must be null!");
             }
-            request(HttpMethod.POST_RAW);
+            request(HttpMethod.POST_RAW);//发送带body的post
         }
     }
 
-    public final void put() {
-        if (BODY == null) {
+    public final void put() {//暴露给外部使用的
+        if (BODY == null) { //发送普通put
             request(HttpMethod.PUT);
         } else {
-            if (!PARAMS.isEmpty()) {
+            if (!PARAMS.isEmpty()) {  //发送带body的put，参数必须为空
                 throw new RuntimeException("params must be null!");
             }
-            request(HttpMethod.PUT_RAW);
+            request(HttpMethod.PUT_RAW);//发送带body的put
         }
     }
 
     public final void delete() {
         request(HttpMethod.DELETE);
     }
+
+
+    public final void upload() {
+        request(HttpMethod.UPLOAD);
+    }
+
+    public final void download() {
+        new DownloadHandler(URL, REQUEST, DOWNLOAD_DIR, EXTENSION, NAME,
+                SUCCESS, FAILURE, ERROR)
+                .handleDownload(); //调用方法去下载
+    }
+
 }
