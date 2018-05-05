@@ -3,6 +3,7 @@ package com.atguigu.latte.net;
 
 import com.atguigu.latte.app.ConfigKeys;
 import com.atguigu.latte.app.Latte;
+import com.atguigu.latte.net.rx.RxRestService;
 
 import java.util.ArrayList;
 import java.util.WeakHashMap;
@@ -11,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 
@@ -61,6 +63,7 @@ public final class RestCreator {
                 .baseUrl(BASE_URL)
                 .client(OKHttpHolder.OK_HTTP_CLIENT)
                 .addConverterFactory(ScalarsConverterFactory.create())  //转换器可以返回stream类型
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
@@ -74,5 +77,17 @@ public final class RestCreator {
 
     public static RestService getRestService() {  //暴露方法给别人用
         return RestServiceHolder.REST_SERVICE;
+    }
+
+    /**
+     * Rxjava  Service接口
+     */
+    private static final class RxRestServiceHolder {
+        private static final RxRestService RX_REST_SERVICE =
+                RetrofitHolder.RETROFIT_CLIENT.create(RxRestService.class);
+    }
+
+    public static RxRestService getRxRestService() {  //暴露方法给别人用
+        return RxRestServiceHolder.RX_REST_SERVICE;
     }
 }

@@ -2,7 +2,7 @@ package com.atguigu.latte.net;
 
 
 
-enum HttpMethod {
+public enum HttpMethod {
     GET,
     POST,
     POST_RAW,
