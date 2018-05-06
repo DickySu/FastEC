@@ -3,10 +3,13 @@ package com.atguigu.latteec.ec.launcher;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.atguigu.latte.delegates.LatteDelegate;
 import com.atguigu.latte.ui.launcher.LauncherHolderCreator;
+import com.atguigu.latte.ui.launcher.ScrollLauncherTag;
+import com.atguigu.latte.util.storage.LattePreference;
 import com.atguigu.latteec.ec.R;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
@@ -24,11 +27,13 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
 
 
     private void initBanner() {
+        INTEGERS.clear();//返回再进来就十张图了奇怪，先清空吧
         INTEGERS.add(R.mipmap.launcher_01);
         INTEGERS.add(R.mipmap.launcher_02);
         INTEGERS.add(R.mipmap.launcher_03);
         INTEGERS.add(R.mipmap.launcher_04);
         INTEGERS.add(R.mipmap.launcher_05); //放入五张图片
+        Log.i("sujh_INTEGERS","INTEGERS--"+INTEGERS);
         mConvenientBanner
                 .setPages(new LauncherHolderCreator(), INTEGERS)  //图片集合
                 .setPageIndicator(new int[]{R.drawable.dot_normal, R.drawable.dot_focus})  //点的样式
@@ -51,6 +56,12 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
 
     @Override
     public void onItemClick(int position) {
+        //如果点击的是最后一个
+        if (position == INTEGERS.size() - 1) {
+            //第一次进入后 就保存sharepreference 以后就不再显示了
+            LattePreference.setAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name(), true);
+            //检查用户是否已经登录
 
+        }
     }
 }

@@ -7,6 +7,8 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.atguigu.latte.delegates.LatteDelegate;
+import com.atguigu.latte.ui.launcher.ScrollLauncherTag;
+import com.atguigu.latte.util.storage.LattePreference;
 import com.atguigu.latte.util.timer.BaseTimerTask;
 import com.atguigu.latte.util.timer.ITimerListener;
 import com.atguigu.latteec.ec.R;
@@ -32,6 +34,7 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener{
         if (mTimer != null) {  //点击后取消定时器
             mTimer.cancel();
             mTimer = null;
+            checkIsShowScroll();
         }
     }
 
@@ -67,10 +70,24 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener{
                         if (mTimer != null) {
                             mTimer.cancel();
                             mTimer = null;
+                            checkIsShowScroll();
                         }
                     }
                 }
             }
         });
+    }
+
+    //判断是否显示滑动启动页
+    private void checkIsShowScroll() {
+        if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
+            //第一次打开就显示banner的引导页
+//            getSupportDelegate().start(new LauncherScrollDelegate(), SINGLETASK);
+            //以下这行自己改写的 可能有bug 因为上一行会导致在banner引导界面可以按返回
+            getSupportDelegate().replaceFragment(new LauncherScrollDelegate(),false);
+        } else {
+            //检查用户是否登录了APP
+
+        }
     }
 }
