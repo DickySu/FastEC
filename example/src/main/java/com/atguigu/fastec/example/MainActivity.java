@@ -5,7 +5,7 @@ import android.support.v7.app.ActionBar;
 
 import com.atguigu.latte.activities.ProxyActivity;
 import com.atguigu.latte.delegates.LatteDelegate;
-import com.atguigu.latteec.ec.sign.SignUpDelegate;
+import com.atguigu.latteec.ec.sign.SignInDelegate;
 
 public class MainActivity extends ProxyActivity {
 //public class MainActivity extends Activity {
@@ -15,7 +15,8 @@ public class MainActivity extends ProxyActivity {
 //        return new ExampleDelegate();
 //        return new LauncherDelegate();
 //        return new LauncherScrollDelegate();
-        return new SignUpDelegate();
+//        return new SignUpDelegate();
+        return new SignInDelegate();
     }
 
     @Override
