@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.atguigu.latte.app.Latte;
 import com.atguigu.latte.net.interceptors.DebugInterceptor;
+import com.atguigu.latteec.ec.database.DatabaseManager;
 import com.atguigu.latteec.ec.icon.FontEcModule;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
@@ -27,6 +28,7 @@ public class ExampleApp extends Application {
                 .configure();//一定要这个方法将CONFIG_READY设置为true
         //Iconify.with(new FontAwesomeModule());
         Toast.makeText(Latte.getApplicationContext(),"123",Toast.LENGTH_SHORT).show();
+        DatabaseManager.getInstance().init(this);//数据库创建
     }
 
 }

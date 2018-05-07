@@ -28,6 +28,8 @@ public class SignInDelegate extends LatteDelegate {
     @BindView(R2.id.edit_sign_in_password)
     TextInputEditText mPassword = null;
 
+    private ISignListener mISignListener = null;
+
     @OnClick(R2.id.btn_sign_in)
     void onClickSignIn() { //登录按钮
         if (checkForm()) {
@@ -39,6 +41,8 @@ public class SignInDelegate extends LatteDelegate {
                         @Override
                         public void onSuccess(String response) {
                             Log.i("USER_PROFILE", response);
+                            Toast.makeText(getContext(),"登录",Toast.LENGTH_SHORT).show();
+                            SignHandler.onSignUp(response, mISignListener);
                         }
                     })
                     .failure(new IFailure() {
@@ -60,7 +64,7 @@ public class SignInDelegate extends LatteDelegate {
 
     @OnClick(R2.id.icon_sign_in_wechat)
     void onClickWeChat() {  //微信登录按钮
-        Toast.makeText(getProxyActivity(),"微信登录",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),"微信登录",Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R2.id.tv_link_sign_up)
