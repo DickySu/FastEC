@@ -30,10 +30,10 @@ public class ExampleApp extends Application {
         //Iconify.with(new FontAwesomeModule());
         Toast.makeText(Latte.getApplicationContext(),"123",Toast.LENGTH_SHORT).show();
         DatabaseManager.getInstance().init(this);//数据库创建
-        initStetho();
+        initStetho();//方便数据库的查看利用chrome
     }
 
-    private void initStetho() {
+    private void initStetho() {  //方便数据库的查看利用chrome
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
