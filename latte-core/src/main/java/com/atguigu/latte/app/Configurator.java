@@ -1,5 +1,6 @@
 package com.atguigu.latte.app;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.joanzapata.iconify.IconFontDescriptor;
@@ -88,6 +89,21 @@ public class Configurator {
 
     public final Configurator withIcon(IconFontDescriptor descriptor) {
         ICONS.add(descriptor);
+        return this;
+    }
+
+    public final Configurator withWeChatAppId(String appId) { //配置微信
+        LATTE_CONFIGS.put(ConfigKeys.WE_CHAT_APP_ID, appId);
+        return this;
+    }
+
+    public final Configurator withWeChatAppSecret(String appSecret) { //配置微信
+        LATTE_CONFIGS.put(ConfigKeys.WE_CHAT_APP_SECRET, appSecret);
+        return this;
+    }
+
+    public final Configurator withActivity(Activity activity) { //微信回调需要使用到
+        LATTE_CONFIGS.put(ConfigKeys.ACTIVITY, activity);
         return this;
     }
 }

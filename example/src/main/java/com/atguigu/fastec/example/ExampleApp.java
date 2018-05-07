@@ -25,6 +25,8 @@ public class ExampleApp extends Application {
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
                 .withApiHost("https://news.baidu.com")
+                .withWeChatAppId("你的微信AppKey")
+                .withWeChatAppSecret("你的微信AppSecret")
                 .withInterceptor(new DebugInterceptor("index",R.raw.test)) //拦截到这个单词就返回后面这个数据
                 .configure();//一定要这个方法将CONFIG_READY设置为true
         //Iconify.with(new FontAwesomeModule());

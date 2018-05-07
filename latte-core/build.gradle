@@ -76,5 +76,6 @@ dependencies {
     //数据库调试工具
     compile 'com.facebook.stetho:stetho:1.4.2'
     compile 'com.facebook.stetho:stetho-okhttp3:1.4.2'
-
+    //微信依赖（包含统计）
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

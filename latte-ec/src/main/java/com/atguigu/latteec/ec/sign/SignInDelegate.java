@@ -16,6 +16,8 @@ import com.atguigu.latte.net.RestClient;
 import com.atguigu.latte.net.callback.IError;
 import com.atguigu.latte.net.callback.IFailure;
 import com.atguigu.latte.net.callback.ISuccess;
+import com.atguigu.latte.wechat.LatteWeChat;
+import com.atguigu.latte.wechat.callbacks.IWeChatSignInCallback;
 import com.atguigu.latteec.ec.R;
 import com.atguigu.latteec.ec.R2;
 
@@ -74,6 +76,15 @@ public class SignInDelegate extends LatteDelegate {
     @OnClick(R2.id.icon_sign_in_wechat)
     void onClickWeChat() {  //微信登录按钮
         Toast.makeText(getContext(),"微信登录",Toast.LENGTH_SHORT).show();
+        LatteWeChat
+                .getInstance()
+                .onSignSuccess(new IWeChatSignInCallback() {
+                    @Override
+                    public void onSignInSuccess(String userInfo) {
+                        Toast.makeText(getContext(), userInfo, Toast.LENGTH_LONG).show();
+                    }
+                })
+                .signIn();//微信登录调用
     }
 
     @OnClick(R2.id.tv_link_sign_up)
