@@ -1,5 +1,6 @@
 package com.atguigu.latteec.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.atguigu.latte.delegates.LatteDelegate;
+import com.atguigu.latte.net.RestClient;
+import com.atguigu.latte.net.callback.ISuccess;
+import com.atguigu.latte.util.log.LatteLogger;
 import com.atguigu.latteec.ec.R;
 import com.atguigu.latteec.ec.R2;
 
@@ -31,16 +35,41 @@ public class SignUpDelegate extends LatteDelegate {
     @BindView(R2.id.edit_sign_up_re_password)
     TextInputEditText mRePassword = null; //重复密码
 
+    private ISignListener mISignListener = null;//判断登录与否的回调接口
+
     @OnClick(R2.id.btn_sign_up)
     void onClickSignUp() {
         if (checkForm()) {
             Toast.makeText(getProxyActivity(),"验证通过",Toast.LENGTH_SHORT).show();
+            RestClient.builder()
+                    .url("http://192.168.56.1:8080/RestDataServer/api/user_profile.php")
+                    .params("name", mName.getText().toString())
+                    .params("email", mEmail.getText().toString())
+                    .params("phone", mPhone.getText().toString())
+                    .params("password", mPassword.getText().toString())
+                    .success(new ISuccess() {
+                        @Override
+                        public void onSuccess(String response) {
+                            LatteLogger.json("USER_PROFILE", response);
+                            SignHandler.onSignUp(response, mISignListener);//注册的回调
+                        }
+                    })
+                    .build()
+                    .post();
         }
     }
 
     @OnClick(R2.id.tv_link_sign_in)
     void onClickLink() {
         getSupportDelegate().start(new SignInDelegate());
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener) {
+            mISignListener = (ISignListener) activity;
+        }
     }
 
     @Override

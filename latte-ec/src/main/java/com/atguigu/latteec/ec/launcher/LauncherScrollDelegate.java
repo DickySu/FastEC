@@ -1,11 +1,14 @@
 package com.atguigu.latteec.ec.launcher;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.atguigu.latte.app.AccountManager;
+import com.atguigu.latte.app.IUserChecker;
 import com.atguigu.latte.delegates.LatteDelegate;
 import com.atguigu.latte.ui.launcher.LauncherHolderCreator;
 import com.atguigu.latte.ui.launcher.ScrollLauncherTag;
@@ -24,7 +27,7 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
 
     private ConvenientBanner<Integer> mConvenientBanner = null; //在这里的泛型对应数据的类型
     private static final ArrayList<Integer> INTEGERS = new ArrayList<>();//集合放图片
-
+    private ILauncherListener mILauncherListener = null;//启动完成后判断登录与否的回调接口
 
     private void initBanner() {
         INTEGERS.clear();//返回再进来就十张图了奇怪，先清空吧
@@ -53,6 +56,13 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
         initBanner();
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ILauncherListener) {
+            mILauncherListener = (ILauncherListener) activity;
+        }
+    }
 
     @Override
     public void onItemClick(int position) {
@@ -61,7 +71,21 @@ public class LauncherScrollDelegate extends LatteDelegate implements OnItemClick
             //第一次进入后 就保存sharepreference 以后就不再显示了
             LattePreference.setAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name(), true);
             //检查用户是否已经登录
+            AccountManager.checkAccount(new IUserChecker() {
+                @Override
+                public void onSignIn() { //如果有登录过了
+                    if (mILauncherListener != null) {
+                        mILauncherListener.onLauncherFinish(OnLauncherFinishTag.SIGNED);
+                    }
+                }
 
+                @Override
+                public void onNotSignIn() { //如果还没登录过
+                    if (mILauncherListener != null) {
+                        mILauncherListener.onLauncherFinish(OnLauncherFinishTag.NOT_SIGNED);
+                    }
+                }
+            });
         }
     }
 }

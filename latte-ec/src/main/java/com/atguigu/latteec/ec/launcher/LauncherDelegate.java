@@ -1,11 +1,14 @@
 package com.atguigu.latteec.ec.launcher;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
+import com.atguigu.latte.app.AccountManager;
+import com.atguigu.latte.app.IUserChecker;
 import com.atguigu.latte.delegates.LatteDelegate;
 import com.atguigu.latte.ui.launcher.ScrollLauncherTag;
 import com.atguigu.latte.util.storage.LattePreference;
@@ -28,6 +31,8 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener{
 
     @BindView(R2.id.tv_launcher_timer)
     AppCompatTextView mTvTimer = null;
+
+    private ILauncherListener mILauncherListener = null;//启动完成后判断登录与否的回调接口
 
     @OnClick(R2.id.tv_launcher_timer)
     void onClickTimerView() {  //绑定点击事件  点击后直接跳过倒计时
@@ -78,16 +83,38 @@ public class LauncherDelegate extends LatteDelegate implements ITimerListener{
         });
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ILauncherListener) {
+            mILauncherListener = (ILauncherListener) activity;
+        }
+    }
+
     //判断是否显示滑动启动页
     private void checkIsShowScroll() {
         if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())) {
             //第一次打开就显示banner的引导页
-//            getSupportDelegate().start(new LauncherScrollDelegate(), SINGLETASK);
+            getSupportDelegate().start(new LauncherScrollDelegate(), SINGLETASK);
             //以下这行自己改写的 可能有bug 因为上一行会导致在banner引导界面可以按返回
-            getSupportDelegate().replaceFragment(new LauncherScrollDelegate(),false);
+//            getSupportDelegate().replaceFragment(new LauncherScrollDelegate(),false);
         } else {
             //检查用户是否登录了APP
+            AccountManager.checkAccount(new IUserChecker() {
+                @Override
+                public void onSignIn() { //如果有登录过了
+                    if (mILauncherListener != null) {
+                        mILauncherListener.onLauncherFinish(OnLauncherFinishTag.SIGNED);
+                    }
+                }
 
+                @Override
+                public void onNotSignIn() { //如果还没登录过
+                    if (mILauncherListener != null) {
+                        mILauncherListener.onLauncherFinish(OnLauncherFinishTag.NOT_SIGNED);
+                    }
+                }
+            });
         }
     }
 }

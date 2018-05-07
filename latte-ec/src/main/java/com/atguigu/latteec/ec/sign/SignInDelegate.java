@@ -1,6 +1,7 @@
 package com.atguigu.latteec.ec.sign;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,7 +43,7 @@ public class SignInDelegate extends LatteDelegate {
                         public void onSuccess(String response) {
                             Log.i("USER_PROFILE", response);
                             Toast.makeText(getContext(),"登录",Toast.LENGTH_SHORT).show();
-                            SignHandler.onSignUp(response, mISignListener);
+                            SignHandler.onSignIn(response, mISignListener);
                         }
                     })
                     .failure(new IFailure() {
@@ -59,6 +60,14 @@ public class SignInDelegate extends LatteDelegate {
                     })
                     .build()
                     .post();
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener) {
+            mISignListener = (ISignListener) activity;
         }
     }
 
