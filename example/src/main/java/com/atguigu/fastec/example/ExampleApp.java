@@ -8,6 +8,7 @@ import com.atguigu.latte.app.Latte;
 import com.atguigu.latte.net.interceptors.DebugInterceptor;
 import com.atguigu.latteec.ec.database.DatabaseManager;
 import com.atguigu.latteec.ec.icon.FontEcModule;
+import com.facebook.stetho.Stetho;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
 
 /**
@@ -29,6 +30,14 @@ public class ExampleApp extends Application {
         //Iconify.with(new FontAwesomeModule());
         Toast.makeText(Latte.getApplicationContext(),"123",Toast.LENGTH_SHORT).show();
         DatabaseManager.getInstance().init(this);//数据库创建
+        initStetho();
     }
 
+    private void initStetho() {
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
+    }
 }
