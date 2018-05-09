@@ -12,6 +12,7 @@ import android.widget.Toolbar;
 import com.atguigu.latte.delegates.bottom.BottomItemDelegate;
 import com.atguigu.latteec.ec.R;
 import com.atguigu.latteec.ec.R2;
+import com.atguigu.latteec.ec.refresh.RefreshHandler;
 import com.joanzapata.iconify.widget.IconTextView;
 
 import butterknife.BindView;
@@ -32,6 +33,8 @@ public class IndexDelegate extends BottomItemDelegate { //内容fragment
     @BindView(R2.id.et_search_view)
     AppCompatEditText mSearchView = null;
 
+    private RefreshHandler mRefreshHandler = null;//刷新处理者
+
     @Override
     public Object setLayout() {
         return R.layout.delegate_index;
@@ -39,8 +42,23 @@ public class IndexDelegate extends BottomItemDelegate { //内容fragment
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-
+        mRefreshHandler = RefreshHandler.create(mRefreshLayout);
     }
 
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        initRefreshLayout();
+        mRefreshHandler.firstPage("index.php");//初始化网页第一页
+    }
+
+    private void initRefreshLayout() {
+        mRefreshLayout.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light
+        );
+        mRefreshLayout.setProgressViewOffset(true, 120, 300);//刷新图标的位置调整
+    }
 
 }
