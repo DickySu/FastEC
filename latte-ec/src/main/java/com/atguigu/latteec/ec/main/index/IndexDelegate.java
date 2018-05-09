@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toolbar;
@@ -42,7 +43,8 @@ public class IndexDelegate extends BottomItemDelegate { //内容fragment
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        mRefreshHandler = RefreshHandler.create(mRefreshLayout);
+        mRefreshHandler = RefreshHandler.create(mRefreshLayout,
+                mRecyclerView,new IndexDataConverter());
     }
 
     @Override
@@ -61,4 +63,8 @@ public class IndexDelegate extends BottomItemDelegate { //内容fragment
         mRefreshLayout.setProgressViewOffset(true, 120, 300);//刷新图标的位置调整
     }
 
+    private void initRecyclerView() {
+        final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
+        mRecyclerView.setLayoutManager(manager);
+    }
 }
